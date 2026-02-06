@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIZZA KING | ASZTALOK</title>
+    <style>
+        :root { --king: #ffcc00; --bg: #0d0d0d; --card: #1a1a1a; --text: #fff; --red: #ff4d4d; --green: #2ecc71; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); scroll-behavior: smooth; }
+
+        /* Nav ugyanaz mint az indexen */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 15px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(13, 13, 13, 0.95); backdrop-filter: blur(10px);
+            z-index: 1000; border-bottom: 2px solid var(--king);
+        }
+        .logo { font-size: 1.8rem; font-weight: 900; color: white; text-decoration: none; }
+        .logo span { color: var(--king); }
+        .back-btn { color: var(--king); text-decoration: none; font-weight: bold; }
+
+        .header { padding: 120px 20px 40px; text-align: center; }
+        .header h1 { font-size: 3rem; color: var(--king); margin-bottom: 10px; }
+
+        .plan { 
+            max-width: 900px; margin: 20px auto; background: #111; padding: 50px; 
+            border-radius: 30px; display: grid; grid-template-columns: repeat(3, 1fr); 
+            gap: 50px; border: 1px dashed #444; 
+        }
+
+        .table-box { width: 110px; height: 110px; margin: auto; position: relative; cursor: pointer; transition: 0.3s; }
+        .table-circle { 
+            width: 70px; height: 70px; background: var(--card); border: 3px solid var(--king); 
+            border-radius: 50%; position: absolute; top: 20px; left: 20px; 
+            display: flex; align-items: center; justify-content: center; z-index: 2; font-weight: bold; 
+        }
+        .chair { width: 22px; height: 22px; background: #333; border-radius: 5px; position: absolute; }
+        .c1 { top:0; left:44px; } .c2 { bottom:0; left:44px; } .c3 { left:0; top:44px; } .c4 { right:0; top:44px; }
+
+        .occupied .table-circle { border-color: var(--red); color: var(--red); cursor: not-allowed; }
+        .occupied .chair { background: var(--red); opacity: 0.3; }
+        .selected .table-circle { background: var(--green); color: black; border-color: var(--green); transform: scale(1.1); }
+        
+        .booking-form { 
+            max-width: 450px; margin: 40px auto; background: var(--card); padding: 35px; 
+            border-radius: 20px; border: 2px solid var(--king); display: none; animation: slideIn 0.4s ease;
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } }
+
+        input { width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #444; color: white; border-radius: 8px; outline: none; }
+        input:focus { border-color: var(--king); }
+        .btn { width: 100%; padding: 15px; background: var(--king); border: none; font-weight: 900; cursor: pointer; border-radius: 10px; text-transform: uppercase; }
+
+        /* Easter Egg stílus */
+        .gabor-table .table-circle { border-style: double; border-width: 5px; animation: glow 1.5s infinite alternate; }
+        @keyframes glow { from { box-shadow: 0 0 5px var(--king); } to { box-shadow: 0 0 20px var(--king); } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">KING <span>DOM</span></a>
+        <a href="index.html" class="back-btn">← VISSZA AZ ÉTLAPHOZ</a>
+    </nav>
+
+    <div class="header">
+        <h1>VÁLASZD KI A <span>TRÓNOD</span></h1>
+        <p>Gábor asztalát csak a kiválasztottak kaphatják meg.</p>
+    </div>
+
+    <div class="plan" id="plan"></div>
+
+    <div class="booking-form" id="form">
+        <h2 id="table-label" style="margin-bottom:20px; color:var(--king)">#1 Asztal</h2>
+        <input type="number" id="f-count" placeholder="Hányan jöttök? (1-10 fő)" min="1" max="10">
+        <input type="time" id="f-time">
+        <input type="text" id="f-name" placeholder="Foglalo Neve / Beceneve">
+        <button class="btn" onclick="book()">FOGLALÁS VÉGLEGESÍTÉSE</button>
+    </div>
+
+    <script>
+        let selected = null;
+        const plan = document.getElementById('plan');
+
+        // ASZTALOK GENERÁLÁSA
+        for(let i=1; i<=12; i++) {
+            const isGabor = (i === 7); // A 7-es a Gábor asztala (easter egg)
+            const occ = Math.random() < 0.3 && !isGabor;
+            
+            plan.innerHTML += `
+                <div class="table-box ${occ?'occupied':''} ${isGabor?'gabor-table':''}" id="t${i}" onclick="select(${i}, ${occ}, ${isGabor})">
+                    <div class="chair c1"></div><div class="chair c2"></div><div class="chair c3"></div><div class="chair c4"></div>
+                    <div class="table-circle">${isGabor ? 'GÁBOR' : i}</div>
+                </div>`;
+        }
+
+        function select(id, occ, isGabor) {
+            if(occ) return alert("Sajnálom, ott már Németh Gábor imitátorok vacsoráznak.");
+            if(isGabor) alert("GRATULÁLOK! Megtaláltad a Mester asztalát. Ide csak kutyahúsos pizzát szabad rendelni!");
+
+            if(selected) document.getElementById('t'+selected).classList.remove('selected');
+            selected = id;
+            document.getElementById('t'+id).classList.add('selected');
+            
+            document.getElementById('form').style.display = 'block';
+            document.getElementById('table-label').innerText = isGabor ? "GÁBOR ASZTALA" : "#"+id+" Asztal";
+            
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        function book() {
+            const count = document.getElementById('f-count').value;
+            const time = document.getElementById('f-time').value;
+            const name = document.getElementById('f-name').value;
+
+            if(count < 1 || count > 10 || !time || name.length < 2) {
+                alert("Ne próbálkozz, Király! Tölts ki mindent rendesen.");
+            } else {
+                alert("Sikeres foglalás! Németh Gábor már vár titeket " + time + "-kor.");
+                location.href = "index.html"; // Visszavisz a főoldalra
+            }
+        }
+    </script>
+</body>
+</html>
