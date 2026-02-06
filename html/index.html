@@ -3,11 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
-    <script defer src="/js/script.js"></script>
-    <title>Document</title>
+    <title>PIZZA KING | GÁBOR EDITION</title>
+    <style>
+        :root {
+            --king: #ffcc00; --bg: #0d0d0d; --card: #1a1a1a; --text: #ffffff;
+            --red: #ff4d4d; --green: #2ecc71; --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* Nav */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 15px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(13, 13, 13, 0.95); backdrop-filter: blur(15px);
+            z-index: 1000; border-bottom: 2px solid var(--king);
+        }
+        .logo { font-size: 1.8rem; font-weight: 900; color: white; text-decoration: none; }
+        .logo span { color: var(--king); }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: bold; font-size: 0.9rem; }
+        .nav-links a:hover { color: var(--king); }
+
+        /* Hero */
+        .hero {
+            height: 60vh; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200');
+            background-size: cover; background-position: center;
+        }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); color: var(--king); text-shadow: 3px 3px 0px #000; }
+
+        /* Grid */
+        .container { padding: 80px 8%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: var(--card); border-radius: 20px; overflow: hidden; border: 1px solid #333; transition: var(--transition); position: relative; }
+        .card:hover { transform: translateY(-10px); border-color: var(--king); box-shadow: 0 10px 30px rgba(255, 204, 0, 0.1); }
+        .card-img { height: 180px; background-size: cover; background-position: center; }
+        .card-body { padding: 20px; }
+        .card-body h3 { color: var(--king); margin-bottom: 10px; font-size: 1.3rem; }
+        .card-body p { font-size: 0.85rem; color: #aaa; height: 45px; margin-bottom: 15px; line-height: 1.4; }
+        .price-row { display: flex; justify-content: space-between; align-items: center; }
+        .add-btn { background: var(--king); border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .add-btn:hover { background: #fff; transform: scale(1.1); }
+
+        /* Kosár */
+        #cart-panel {
+            position: fixed; top: 0; right: -420px; width: 400px; height: 100%;
+            background: #111; z-index: 2000; padding: 30px; box-shadow: -10px 0 50px #000;
+            transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column;
+        }
+        #cart-panel.active { right: 0; }
+        .close-cart { font-size: 2.5rem; color: var(--king); cursor: pointer; float: right; }
+        #cart-items { flex-grow: 1; overflow-y: auto; margin: 20px 0; list-style: none; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
+        
+        /* Igényes Törlés Gomb */
+        .del-btn { 
+            background: rgba(255, 77, 77, 0.1); color: var(--red); border: 1px solid var(--red);
+            padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; 
+            font-weight: bold; transition: 0.2s;
+        }
+        .del-btn:hover { background: var(--red); color: white; box-shadow: 0 0 10px var(--red); }
+
+        /* Modal */
+        #pay-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 3000; display: none; justify-content: center; align-items: center;
+        }
+        .pay-box { background: #1a1a1a; padding: 35px; border-radius: 20px; border: 2px solid var(--king); width: 420px; }
+        .pay-input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; margin-bottom: 5px; outline: none; }
+        .error-msg { color: var(--red); font-size: 0.75rem; margin-bottom: 10px; display: none; font-weight: bold; }
+        .checkout-btn { width: 100%; padding: 15px; background: var(--king); border: none; border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 10px; }
+
+        .float-cart { position: fixed; bottom: 30px; right: 30px; background: var(--king); width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 1500; font-weight: bold; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+    </style>
 </head>
 <body>
 
+    <nav>
+        <a href="index.html" class="logo">KING <span>DOM</span></a>
+        <div class="nav-links">
+            <a href="#menu">Étlap</a>
+            <a href="foglalas.html">Asztalfoglalás</a>
+            <a href="#" onclick="toggleCart()">Kosár</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <p style="color:var(--king); letter-spacing:3px; font-weight:bold;">SZEVASZ GÁBOR, SZEVASZ KIRÁLY!</p>
+        <h1>A <span>KING</span> VISSZATÉRT</h1>
+        <p>Ahol a kutyahús nem csak legenda, hanem feltét.</p>
+    </header>
+
+    <div class="container" id="menu">
+        <div class="grid" id="pizza-grid"></div>
+    </div>
+
+    <div id="cart-panel">
+        <div><span class="close-cart" onclick="toggleCart()">&times;</span></div>
+        <h2 style="color:var(--king)">A pakkod:</h2>
+        <ul id="cart-items"></ul>
+        <div style="border-top:1px solid #333; padding-top:20px;">
+            <input type="text" id="coupon" class="pay-input" placeholder="Kuponkód (Próbáld: GABOR50)" style="font-size: 0.8rem;">
+            <h3 style="display:flex; justify-content:space-between; margin-top:15px;"><span>Összesen:</span> <span id="total-val">0 Ft</span></h3>
+            <button class="checkout-btn" onclick="openPay()">IRÁNY A KASSZA</button>
+        </div>
+    </div>
+
+    <div id="pay-modal">
+        <div class="pay-box">
+            <h2 style="margin-bottom:15px">Fizetés</h2>
+            <div id="card-type" style="text-align:right; font-size:0.7rem; color:var(--king); height:15px; font-weight:bold; letter-spacing:1px;"></div>
+            
+            <input type="text" id="pay-name" class="pay-input" placeholder="Teljes Név">
+            <div id="err-name" class="error-msg">Normális nevet adj meg (min. 2 szó)!</div>
+
+            <input type="text" id="pay-card" class="pay-input" placeholder="Kártyaszám (4... vagy 5...)" maxlength="19">
+            <div id="err-card" class="error-msg">Ez nem jó kártyaszám (16 számjegy)!</div>
+
+            <div style="display:flex; gap:10px;">
+                <div style="flex:1">
+                    <input type="text" id="pay-expiry" class="pay-input" placeholder="MM/YY" maxlength="5">
+                    <div id="err-expiry" class="error-msg">Formátum: MM/YY!</div>
+                </div>
+                <div style="flex:1">
+                    <input type="password" id="pay-cvc" class="pay-input" placeholder="CVC" maxlength="3">
+                    <div id="err-cvc" class="error-msg">3 szám kell!</div>
+                </div>
+            </div>
+
+            <button class="checkout-btn" onclick="validatePay()">RENDELÉS LEADÁSA</button>
+            <p style="text-align:center; margin-top:15px; cursor:pointer; color:#666" onclick="closePay()">Vissza az étlaphoz</p>
+        </div>
+    </div>
+
+    <div class="float-cart" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
+
+    <script>
+        const pizzas = [
+            { name: "Németh Gábor Pizzája", desc: "Kutyahússal, ahogy Gábor szereti. Extra ropogós, friss mentéssel.", price: 2990, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400" },
+            { name: "Gábor Bosszúja", desc: "Olyan csípős, hogy Gábor is megkönnyezi. Csak 18 felett!", price: 3290, img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400" },
+            { name: "Viktooooor Pizzája", desc: "A kerítésen innen mindenki jól jár vele. Kolbász, szalonna, tekintély.", price: 2890, img: "https://images.unsplash.com/photo-1593504049359-7b7d92c7185d?w=400" },
+            { name: "Állatorvos Pizzája", desc: "Minden van rajta, amit az utcán találtunk és még mozgott.", price: 2490, img: "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=400" },
+            { name: "Németh Gábor Kedvence", desc: "Csak hús. Semmi zöldség, mert Gábor nem nyúl.", price: 3590, img: "https://images.unsplash.com/photo-1510739859533-899852233804?w=400" },
+            { name: "Pótvizsga Pizza", desc: "Sós könnyekkel ízesítve, extra keserű szélekkel az augusztusi tanuláshoz.", price: 1490, img: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=400" },
+            { name: "Koleszos King", desc: "Instant tészta feltéttel, csapvízzel locsolva. Olcsó és laktat.", price: 1590, img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=400" },
+            { name: "Év végi 5-ös", desc: "Kaviár, szarvasgomba, és minden, amit egy diák sose lát.", price: 9990, img: "https://images.unsplash.com/photo-1594000199163-247904ce658d?w=400" },
+            { name: "Gábor 'Szevasz' Pizzája", desc: "Minden szeletnél egy virtuális kézfogás a mestertől.", price: 2190, img: "https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?w=400" },
+            { name: "Tanár Úr Kedvence", desc: "Sok gomba, nulla íz, 45 perc várakozás a folyosón.", price: 1990, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
+            { name: "Hell King", desc: "Hogy ne csak egyszer fájjon. Gábor kedvenc chiliszószával.", price: 2590, img: "https://images.unsplash.com/photo-1593246049226-ded77bf5032e?w=400" },
+            { name: "Sajtimádó Trónja", desc: "5 féle sajt, plusz egy kis sajt a biztonság kedvéért.", price: 2790, img: "https://images.unsplash.com/photo-1548369929-da665016932a?w=400" },
+            { name: "Hawaii Bűnözés", desc: "Ananász? Igen. Gábor szerint ez közvádas bűncselekmény.", price: 2290, img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400" },
+            { name: "Buffet Maradék", desc: "Amit az asztalokon hagytak záráskor a menzán.", price: 1290, img: "https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?w=400" },
+            { name: "Németh Gábor Titka", desc: "Senki se tudja mi van rajta, de mindenki ezt kéri.", price: 4490, img: "https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?w=400" }
+        ];
+
+        const grid = document.getElementById('pizza-grid');
+        pizzas.forEach((p, i) => {
+            grid.innerHTML += `
+                <div class="card">
+                    <div class="card-img" style="background-image:url('${p.img}')"></div>
+                    <div class="card-body">
+                        <h3>${p.name}</h3>
+                        <p>${p.desc}</p>
+                        <div class="price-row">
+                            <b class="price-val">${p.price} Ft</b>
+                            <button class="add-btn" onclick="addToCart(${i})">Kosárba</button>
+                        </div>
+                    </div>
+                </div>`;
+        });
+
+        let cart = [];
+        function addToCart(idx) { cart.push(pizzas[idx]); updateUI(); }
+        function remove(idx) { cart.splice(idx,1); updateUI(); }
+
+        function updateUI() {
+            const list = document.getElementById('cart-items');
+            list.innerHTML = ''; let total = 0;
+            const coupon = document.getElementById('coupon').value.toUpperCase();
+            
+            cart.forEach((p, i) => { 
+                total += p.price; 
+                list.innerHTML += `<li class="cart-item">
+                    <span>${p.name}</span>
+                    <button class="del-btn" onclick="remove(${i})">Törlés</button>
+                </li>`; 
+            });
+
+            // Easter Egg: Gábor kupon
+            if(coupon === "GABOR50") {
+                total = total * 0.5;
+                document.getElementById('total-val').style.color = "var(--green)";
+            } else {
+                document.getElementById('total-val').style.color = "white";
+            }
+
+            document.getElementById('total-val').innerText = Math.round(total).toLocaleString() + " Ft";
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        // Coupon input figyelő
+        document.getElementById('coupon').addEventListener('input', updateUI);
+
+        function toggleCart() { document.getElementById('cart-panel').classList.toggle('active'); }
+        function openPay() { if(cart.length === 0) return alert("Üres a kosár, Gábor nem örül!"); toggleCart(); document.getElementById('pay-modal').style.display='flex'; }
+        function closePay() { document.getElementById('pay-modal').style.display='none'; }
+
+        // KÁRTYA RECO & FORMAT
+        document.getElementById('pay-card').addEventListener('input', e => {
+            let val = e.target.value.replace(/\s/g, '');
+            e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim();
+            document.getElementById('card-type').innerText = val.startsWith('4') ? "VISA" : val.startsWith('5') ? "MASTERCARD" : "ISMERETLEN";
+        });
+
+        function validatePay() {
+            const name = document.getElementById('pay-name').value.trim();
+            const card = document.getElementById('pay-card').value.replace(/\s/g, '');
+            const expiry = document.getElementById('pay-expiry').value;
+            const cvc = document.getElementById('pay-cvc').value;
+            
+            let ok = true;
+            document.querySelectorAll('.error-msg').forEach(e => e.style.display = 'none');
+
+            if (name.split(' ').length < 2) { document.getElementById('err-name').style.display='block'; ok=false; }
+            if (card.length !== 16) { document.getElementById('err-card').style.display='block'; ok=false; }
+            if (!/^\d{2}\/\d{2}$/.test(expiry)) { document.getElementById('err-expiry').style.display='block'; ok=false; }
+            if (cvc.length !== 3) { document.getElementById('err-cvc').style.display='block'; ok=false; }
+
+            if(ok) {
+                alert("Sikeres fizetés! Németh Gábor személyesen (nem) viszi a pizzát!");
+                cart = []; updateUI(); closePay();
+            }
+        }
+    </script>
 </body>
 </html>
