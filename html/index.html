@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PizzaKing - Jobb mint a BÉCSI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">PIZZA<span>KING</span></div>
+
+        <button class="hamburger-menu" id="hamburgerGomb">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav id="navMenu">
+            <ul>
+                <li><a href="index.html" data-lang="fooldal">Étlap</a></li>
+                <li><a href="foglalas.html" data-lang="foglalas">Asztalfoglalás</a></li>
+                <li>
+                    <button class="ikon-gomb" id="kosarGomb">
+                        <svg class="kosar-ikon-svg" viewBox="0 0 24 24">
+                            <path
+                                d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+                        </svg>
+                        <span class="kosar-szamlalo" id="kosarSzamlalo">0</span>
+                    </button>
+                </li>
+            </ul>
+            <div class="beallitasok mobile-beallitasok">
+                <select id="nyelvValaszto">
+                    <option value="hu">HU</option>
+                    <option value="en">EN</option>
+                    <option value="de">DE</option>
+                </select>
+                <button id="temaGomb" class="tema-gomb">🌙</button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1 data-lang="koszontes">A KIRÁLY VISSZATÉRT</h1>
+        <p data-lang="szlogen">Uralkodó ízek, fejedelmi kiszolgálás.</p>
+    </div>
+
+    <main class="kontener">
+        <div class="grid" id="menuDoboz"></div>
+    </main>
+
+    <div class="kosar-oldalsav" id="kosarOldalsav">
+        <div class="kosar-fejlec">
+            <h2 data-lang="kosar_cim">KOSARAD</h2>
+            <button class="ikon-gomb" id="kosarBezar">✕</button>
+        </div>
+        <div class="kosar-tartalom" id="kosarLista">
+            <p style="text-align: center; color: #666;">A kosár üres.</p>
+        </div>
+        <div class="kosar-lablec">
+            <div class="vegosszeg-sor">
+                <span data-lang="vegosszeg">Összesen:</span>
+                <span id="vegosszegErtek">0 Ft</span>
+            </div>
+            <button class="btn-primary" id="fizetesInditasGomb" data-lang="fizetes_gomb">Fizetés</button>
+        </div>
+    </div>
+
+    <div id="fizetesModal" class="modal-hatter">
+        <div class="modal-tartalom">
+            <span class="bezar">&times;</span>
+            <h3 data-lang="kartya_adatok" style="color:var(--akcentus-szin); text-transform: uppercase;">Bankkártya
+                adatok</h3>
+            <div class="form-csoport">
+                <label data-lang="kartya_tulaj">Kártyabirtokos</label>
+                <input type="text" placeholder="Kártyán szereplő név">
+            </div>
+            <div class="form-csoport">
+                <label data-lang="kartya_szam">Kártyaszám</label>
+                <div style="position: relative;">
+                    <input type="text" id="kartyaSzam" placeholder="0000 0000 0000 0000" maxlength="19">
+                    <span id="kartyaTipus"
+                        style="position: absolute; right: 10px; top: 15px; font-weight: bold; color: var(--szoveg-szin);"></span>
+                </div>
+            </div>
+            <div style="display: flex; gap: 15px;">
+                <div class="form-csoport" style="flex: 1;">
+                    <label data-lang="lejarat">Lejárat</label>
+                    <input type="text" placeholder="HH/ÉÉ" maxlength="5">
+                </div>
+                <div class="form-csoport" style="flex: 1;">
+                    <label>CVC</label>
+                    <input type="password" placeholder="***" maxlength="3">
+                </div>
+            </div>
+            <button class="btn-primary" id="veglegesitesGomb" data-lang="fizetes_veglegesit">Fizetés</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 PizzaKing. Minden jog fenntartva. </p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+
+</html>

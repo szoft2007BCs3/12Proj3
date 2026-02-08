@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foglalás - PizzaKing</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">KING <span>DOM</span></div>
+
+        <button class="hamburger-menu" id="hamburgerGomb">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav id="navMenu">
+            <ul>
+                <li><a href="index.html" data-lang="fooldal">Étlap</a></li>
+                <li><a href="foglalas.html" data-lang="foglalas" style="color:var(--akcentus-szin)">Asztalfoglalás</a>
+                </li>
+                <li>
+                    <button class="ikon-gomb" onclick="window.location.href='index.html'">
+                        <svg class="kosar-ikon-svg" viewBox="0 0 24 24">
+                            <path
+                                d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+            <div class="beallitasok mobile-beallitasok">
+                <select id="nyelvValaszto">
+                    <option value="hu">HU</option>
+                    <option value="en">EN</option>
+                    <option value="de">DE</option>
+                </select>
+                <button id="temaGomb" class="tema-gomb">🌙</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="kontener">
+        <h2 style="text-align: center; color: var(--akcentus-szin); text-transform: uppercase;" data-lang="asztal_cim">
+            Válasszon asztalt</h2>
+
+        <div class="urlap-kontener" style="margin-bottom: 30px;">
+            <div class="form-csoport">
+                <label data-lang="vendegek_szama">Hány főre foglal?</label>
+                <input type="number" id="vendegekSzamaInput" min="1" max="12" value="4" placeholder="Pl. 4">
+            </div>
+        </div>
+
+        <div class="asztal-valaszto" id="asztalKontener">
+            <div class="asztal-wrapper" id="wrap-1">
+                <div class="asztal" data-id="1">1</div>
+            </div>
+            <div class="asztal-wrapper" id="wrap-2">
+                <div class="asztal" data-id="2">2</div>
+            </div>
+            <div class="asztal-wrapper" id="wrap-3">
+                <div class="asztal" data-id="3">3</div>
+            </div>
+            <div class="asztal-wrapper" id="wrap-4">
+                <div class="asztal" data-id="4">4</div>
+            </div>
+            <div class="asztal-wrapper" id="wrap-5">
+                <div class="asztal" data-id="5">5</div>
+            </div>
+            <div class="asztal-wrapper" id="wrap-6">
+                <div class="asztal" data-id="6">6</div>
+            </div>
+            <div class="asztal-wrapper" id="wrap-7">
+                <div class="asztal" data-id="7">7</div>
+            </div>
+            <div class="asztal-wrapper" id="wrap-8">
+                <div class="asztal" data-id="8">8</div>
+            </div>
+            <div class="asztal-wrapper" id="wrap-9">
+                <div class="asztal" data-id="9">9</div>
+            </div>
+            <div class="asztal-wrapper" id="wrap-10">
+                <div class="asztal" data-id="10">10</div>
+            </div>
+            <div class="asztal-wrapper" id="wrap-11">
+                <div class="asztal" data-id="11">11</div>
+            </div>
+            <div class="asztal-wrapper" id="wrap-12">
+                <div class="asztal" data-id="12">12</div>
+            </div>
+        </div>
+
+        <div class="urlap-kontener">
+            <div class="form-csoport">
+                <label data-lang="kivalasztott_asztal">Kiválasztott asztal száma</label>
+                <input type="text" id="kivalasztottAsztalInput" readonly placeholder="-">
+            </div>
+            <div class="form-csoport">
+                <label data-lang="nev">Teljes név</label>
+                <input type="text" id="nevBemenet" required>
+            </div>
+            <div class="form-csoport">
+                <label data-lang="datum">Időpont</label>
+                <input type="datetime-local" required>
+            </div>
+            <button class="btn-primary" id="foglalasGomb" data-lang="foglalas_veglegesit">Foglalás megerősítése</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 PizzaKing. Minden jog fenntartva.</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+
+</html>
