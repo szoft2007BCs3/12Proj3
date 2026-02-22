@@ -78,12 +78,12 @@
                 adatok</h3>
             <div class="form-csoport">
                 <label data-lang="kartya_tulaj">Kártyabirtokos</label>
-                <input type="text" placeholder="Kártyán szereplő név">
+                <input id="kartyaNev" required type="text" placeholder="Kártyán szereplő név">
             </div>
             <div class="form-csoport">
                 <label data-lang="kartya_szam">Kártyaszám</label>
                 <div style="position: relative;">
-                    <input type="text" id="kartyaSzam" placeholder="0000 0000 0000 0000" maxlength="19">
+                    <input required type="text" id="kartyaSzam" placeholder="0000 0000 0000 0000" maxlength="19">
                     <span id="kartyaTipus"
                         style="position: absolute; right: 10px; top: 15px; font-weight: bold; color: var(--szoveg-szin);"></span>
                 </div>
@@ -91,11 +91,11 @@
             <div style="display: flex; gap: 15px;">
                 <div class="form-csoport" style="flex: 1;">
                     <label data-lang="lejarat">Lejárat</label>
-                    <input type="text" placeholder="HH/ÉÉ" maxlength="5">
+                    <input id="kartyaLejarat" required type="text" placeholder="HH/ÉÉ" maxlength="5">
                 </div>
                 <div class="form-csoport" style="flex: 1;">
                     <label>CVC</label>
-                    <input type="password" placeholder="***" maxlength="3">
+                    <input id="kartyaCvc" required type="password" placeholder="***" maxlength="3">
                 </div>
             </div>
             <button class="btn-primary" id="veglegesitesGomb" data-lang="fizetes_veglegesit">Fizetés</button>

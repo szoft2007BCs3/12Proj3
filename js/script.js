@@ -1,8 +1,9 @@
-let kosar = [];
-let aktNyelv = 'hu';
+var kosar = [];
+var aktNyelv = 'hu';
+var akciosok = [];
 
-let pizzak = [
-    { nev: "Tüzes Trón", ar: 3290, img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=600&q=80", desc: { hu: "Csípős szalámi, jalapeno, chili szósz.", en: "Spicy salami, jalapeno, chili sauce.", de: "Würzige Salami, Jalapeno, Chilisauce." } },
+var pizzak = [
+    { nev: "Szüzes Trón", ar: 3290, img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=600&q=80", desc: { hu: "Csípős szalámi, jalapeno, chili szósz.", en: "Spicy salami, jalapeno, chili sauce.", de: "Würzige Salami, Jalapeno, Chilisauce." } },
     { nev: "Vidéki Bőség", ar: 2890, img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=600&q=80", desc: { hu: "Bacon, lilahagyma, tejfölös alap, trappista.", en: "Bacon, red onion, sour cream base, trappist.", de: "Speck, rote Zwiebeln, Sauerrahmbasis, Trappistenkäse." } },
     { nev: "Sajtok Ura", ar: 2490, img: "https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=600&q=80", desc: { hu: "Négyféle válogatott sajt, oregánó.", en: "Selection of four cheeses, oregano.", de: "Auswahl von vier Käsesorten, Oregano." } },
     { nev: "Erdő Kapitánya", ar: 2790, img: "https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=600&q=80", desc: { hu: "Gomba, sonka, kukorica, paradicsom.", en: "Mushrooms, ham, corn, tomatoes.", de: "Pilze, Schinken, Mais, Tomaten." } },
@@ -24,17 +25,81 @@ let pizzak = [
     { nev: "Királyi Lakoma", ar: 11990, img: "https://pizzagarden.hu/wp-content/uploads/2024/05/online-pizza-rendeles-budapest-pizza-garden.jpg", desc: { hu: "5 választható pizza az étlapról", en: "5 selectable pizzas from the menu", de: "5 auswählbare Pizzen aus dem Menü" } },
 ];
 
-let akciosok = [];
+var szotar = {
+    hu: {
+        fooldal: "Étlap",
+        foglalas: "Asztalfoglalás",
+        koszontes: "A KIRÁLY VISSZATÉRT",
+        szlogen: "Uralkodó ízek, fejedelmi kiszolgálás.",
+        kosarba: "KOSÁRBA",
+        kosar_cim: "KOSARAD",
+        vegosszeg: "Összesen:",
+        asztal_cim: "VÁLASSZON ASZTALT",
+        vendegek_szama: "HÁNY FŐRE FOGLAL?",
+        kivalasztott_asztal: "KIVÁLASZTOTT ASZTAL SZÁMA",
+        nev: "TELJES NÉV",
+        datum: "IDŐPONT",
+        fizetes_gomb: "FIZETÉS",
+        foglalas_veglegesit: "FOGLALÁS MEGERŐSÍTÉSE",
+        kartya_adatok: "BANKKÁRTYA ADATOK",
+        kartya_tulaj: "KÁRTYABIRTOKOS",
+        kartya_szam: "KÁRTYASZÁM",
+        lejarat: "LEJÁRAT",
+        fizetes_veglegesit: "FIZETÉS"
+    },
+    en: {
+        fooldal: "Menu",
+        foglalas: "Book a Table",
+        koszontes: "THE KING IS BACK",
+        szlogen: "Ruling flavors, royal service.",
+        kosarba: "ADD TO CART",
+        kosar_cim: "YOUR CART",
+        vegosszeg: "Total:",
+        asztal_cim: "CHOOSE A TABLE",
+        vendegek_szama: "NUMBER OF GUESTS?",
+        kivalasztott_asztal: "SELECTED TABLE NUMBER",
+        nev: "FULL NAME",
+        datum: "DATE AND TIME",
+        fizetes_gomb: "PAY",
+        foglalas_veglegesit: "CONFIRM BOOKING",
+        kartya_adatok: "CREDIT CARD DETAILS",
+        kartya_tulaj: "CARDHOLDER",
+        kartya_szam: "CARD NUMBER",
+        lejarat: "EXPIRY",
+        fizetes_veglegesit: "PAY"
+    },
+    de: {
+        fooldal: "Speisekarte",
+        foglalas: "Tischreservierung",
+        koszontes: "DER KÖNIG IST ZURÜCK",
+        szlogen: "Herrschende Aromen, königlicher Service.",
+        kosarba: "IN DEN WARENKORB",
+        kosar_cim: "WARENKORB",
+        vegosszeg: "Gesamt:",
+        asztal_cim: "TISCH WÄHLEN",
+        vendegek_szama: "ANZAHL DER GÄSTE?",
+        kivalasztott_asztal: "AUSGEWÄHLTE TISCHNUMMER",
+        nev: "VOLLSTÄNDIGER NAME",
+        datum: "ZEITPUNKT",
+        fizetes_gomb: "BEZAHLEN",
+        foglalas_veglegesit: "BUCHUNG BESTÄTIGEN",
+        kartya_adatok: "KREDITKARTENDATEN",
+        kartya_tulaj: "KARTENINHABER",
+        kartya_szam: "KARTENNUMMER",
+        lejarat: "ABLAUF",
+        fizetes_veglegesit: "BEZAHLEN"
+    }
+};
+
 while (akciosok.length < 3) {
-    let r = Math.floor(Math.random() * pizzak.length);
-    let benneVan = false;
-    for (let i = 0; i < akciosok.length; i++) {
+    var r = Math.floor(Math.random() * pizzak.length);
+    var benneVan = false;
+    for (var i = 0; i < akciosok.length; i++) {
         if (akciosok[i] === r) {
             benneVan = true;
-            break;
         }
     }
-    if (!benneVan) {
+    if (benneVan == false) {
         akciosok.push(r);
     }
 }
@@ -45,15 +110,15 @@ document.addEventListener('DOMContentLoaded', function () {
         aktNyelv = localStorage.getItem('nyelv');
     }
 
-    let temaGomb = document.getElementById('temaGomb');
-    let elmentettTema = localStorage.getItem('tema');
+    var temaGomb = document.getElementById('temaGomb');
+    var elmentettTema = localStorage.getItem('tema');
 
     if (elmentettTema === 'vilagos') {
         document.body.classList.add('vilagos-tema');
-        if (temaGomb) temaGomb.textContent = '☀️';
+        if (temaGomb) { temaGomb.textContent = '☀️'; }
     } else {
         document.body.classList.remove('vilagos-tema');
-        if (temaGomb) temaGomb.textContent = '🌙';
+        if (temaGomb) { temaGomb.textContent = '🌙'; }
     }
 
     if (temaGomb) {
@@ -70,78 +135,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    let szotar = {
-        hu: {
-            fooldal: "Étlap",
-            foglalas: "Asztalfoglalás",
-            koszontes: "A KIRÁLY VISSZATÉRT",
-            szlogen: "Uralkodó ízek, fejedelmi kiszolgálás.",
-            kosarba: "KOSÁRBA",
-            kosar_cim: "KOSARAD",
-            vegosszeg: "Összesen:",
-            asztal_cim: "VÁLASSZON ASZTALT",
-            vendegek_szama: "HÁNY FŐRE FOGLAL?",
-            kivalasztott_asztal: "KIVÁLASZTOTT ASZTAL SZÁMA",
-            nev: "TELJES NÉV",
-            datum: "IDŐPONT",
-            fizetes_gomb: "FIZETÉS",
-            foglalas_veglegesit: "FOGLALÁS MEGERŐSÍTÉSE",
-            kartya_adatok: "BANKKÁRTYA ADATOK",
-            kartya_tulaj: "KÁRTYABIRTOKOS",
-            kartya_szam: "KÁRTYASZÁM",
-            lejarat: "LEJÁRAT",
-            fizetes_veglegesit: "FIZETÉS"
-        },
-        en: {
-            fooldal: "Menu",
-            foglalas: "Book a Table",
-            koszontes: "THE KING IS BACK",
-            szlogen: "Ruling flavors, royal service.",
-            kosarba: "ADD TO CART",
-            kosar_cim: "YOUR CART",
-            vegosszeg: "Total:",
-            asztal_cim: "CHOOSE A TABLE",
-            vendegek_szama: "NUMBER OF GUESTS?",
-            kivalasztott_asztal: "SELECTED TABLE NUMBER",
-            nev: "FULL NAME",
-            datum: "DATE AND TIME",
-            fizetes_gomb: "PAY",
-            foglalas_veglegesit: "CONFIRM BOOKING",
-            kartya_adatok: "CREDIT CARD DETAILS",
-            kartya_tulaj: "CARDHOLDER",
-            kartya_szam: "CARD NUMBER",
-            lejarat: "EXPIRY",
-            fizetes_veglegesit: "PAY"
-        },
-        de: {
-            fooldal: "Speisekarte",
-            foglalas: "Tischreservierung",
-            koszontes: "DER KÖNIG IST ZURÜCK",
-            szlogen: "Herrschende Aromen, königlicher Service.",
-            kosarba: "IN DEN WARENKORB",
-            kosar_cim: "WARENKORB",
-            vegosszeg: "Gesamt:",
-            asztal_cim: "TISCH WÄHLEN",
-            vendegek_szama: "ANZAHL DER GÄSTE?",
-            kivalasztott_asztal: "AUSGEWÄHLTE TISCHNUMMER",
-            nev: "VOLLSTÄNDIGER NAME",
-            datum: "ZEITPUNKT",
-            fizetes_gomb: "BEZAHLEN",
-            foglalas_veglegesit: "BUCHUNG BESTÄTIGEN",
-            kartya_adatok: "KREDITKARTENDATEN",
-            kartya_tulaj: "KARTENINHABER",
-            kartya_szam: "KARTENNUMMER",
-            lejarat: "ABLAUF",
-            fizetes_veglegesit: "BEZAHLEN"
-        }
-    };
-
     function nyelvValtas() {
-        let elemek = document.querySelectorAll('[data-lang]');
-        for (let i = 0; i < elemek.length; i++) {
-            let kulcs = elemek[i].getAttribute('data-lang');
-            if (szotar[aktNyelv] && szotar[aktNyelv][kulcs]) {
-                elemek[i].textContent = szotar[aktNyelv][kulcs];
+        var elemek = document.querySelectorAll('[data-lang]');
+        for (var i = 0; i < elemek.length; i++) {
+            var kulcs = elemek[i].getAttribute('data-lang');
+            if (szotar[aktNyelv]) {
+                if (szotar[aktNyelv][kulcs]) {
+                    elemek[i].textContent = szotar[aktNyelv][kulcs];
+                }
             }
         }
         menuKirajzolas();
@@ -150,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nyelvValtas();
 
-    let nyelvSelect = document.getElementById('nyelvValaszto');
+    var nyelvSelect = document.getElementById('nyelvValaszto');
     if (nyelvSelect) {
         nyelvSelect.value = aktNyelv;
         nyelvSelect.addEventListener('change', function () {
@@ -161,72 +162,76 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function menuKirajzolas() {
-        let doboz = document.getElementById('menuDoboz');
-        if (!doboz) return;
+        var doboz = document.getElementById('menuDoboz');
+        if (doboz == null) { return; }
 
         doboz.innerHTML = '';
-        let gombSzoveg = szotar[aktNyelv]['kosarba'];
+        var gombSzoveg = szotar[aktNyelv]['kosarba'];
 
-        for (let i = 0; i < pizzak.length; i++) {
-            let p = pizzak[i];
-            let arHtml = '<span class="ar">' + p.ar + ' Ft</span>';
-            let vegsoAr = p.ar;
+        for (var i = 0; i < pizzak.length; i++) {
+            var p = pizzak[i];
+            var arHtml = '<span class="ar">' + p.ar + ' Ft</span>';
+            var vegsoAr = p.ar;
 
-            let akciosE = false;
-            for (let j = 0; j < akciosok.length; j++) {
+            var akciosE = false;
+            for (var j = 0; j < akciosok.length; j++) {
                 if (akciosok[j] === i) {
                     akciosE = true;
-                    break;
                 }
             }
 
             if (akciosE) {
-                let kedvezmeny = Math.round(p.ar * 0.87 / 10) * 10;
+                var kedvezmeny = Math.round(p.ar * 0.87 / 10) * 10;
                 vegsoAr = kedvezmeny;
                 arHtml = '<span class="eredeti-ar">' + p.ar + ' Ft</span>' +
                     '<span class="akcios-ar">' + vegsoAr + ' Ft</span>';
             }
 
-            let div = document.createElement('div');
+            var div = document.createElement('div');
             div.className = 'kartya';
-            div.innerHTML = '<img src="' + p.img + '" alt="' + p.nev + '">' +
-                '<div class="kartya-tartalom">' +
-                '<h3>' + p.nev + '</h3>' +
-                '<p>' + p.desc[aktNyelv] + '</p>' +
-                '<div class="ar-sor">' +
-                '<div>' + arHtml + '</div>' +
-                '<button class="btn-kosar" onclick="kosarbaRak(\'' + p.nev + '\', ' + vegsoAr + ')">' + gombSzoveg + '</button>' +
-                '</div>' +
-                '</div>';
+            var html = '<img src="' + p.img + '" alt="' + p.nev + '">';
+            html = html + '<div class="kartya-tartalom">';
+            html = html + '<h3>' + p.nev + '</h3>';
+            html = html + '<p>' + p.desc[aktNyelv] + '</p>';
+            html = html + '<div class="ar-sor">';
+            html = html + '<div>' + arHtml + '</div>';
+            html = html + '<button class="btn-kosar" onclick="kosarbaRak(\'' + p.nev + '\', ' + vegsoAr + ')">' + gombSzoveg + '</button>';
+            html = html + '</div></div>';
+            
+            div.innerHTML = html;
             doboz.appendChild(div);
         }
     }
 
-    let kosarGomb = document.getElementById('kosarGomb');
-    let kosarDoboz = document.getElementById('kosarOldalsav');
-    let kosarX = document.getElementById('kosarBezar');
+    var kosarGomb = document.getElementById('kosarGomb');
+    var kosarDoboz = document.getElementById('kosarOldalsav');
+    var kosarX = document.getElementById('kosarBezar');
 
-    if (kosarGomb && kosarDoboz) {
-        kosarGomb.addEventListener('click', function () {
-            kosarDoboz.classList.add('kosar-nyitva');
-        });
-        if (kosarX) {
-            kosarX.addEventListener('click', function () {
-                kosarDoboz.classList.remove('kosar-nyitva');
+    if (kosarGomb) {
+        if (kosarDoboz) {
+            kosarGomb.addEventListener('click', function () {
+                kosarDoboz.classList.add('kosar-nyitva');
             });
+            if (kosarX) {
+                kosarX.addEventListener('click', function () {
+                    kosarDoboz.classList.remove('kosar-nyitva');
+                });
+            }
         }
     }
 
     window.kosarbaRak = function (nev, ar) {
-        let targy = { id: Date.now(), nev: nev, ar: ar };
+        var targy = { id: Date.now(), nev: nev, ar: ar };
         kosar.push(targy);
         kosarFrissites();
-        if (kosarDoboz) kosarDoboz.classList.add('kosar-nyitva');
+        if (kosarDoboz) {
+            kosarDoboz.classList.add('kosar-nyitva');
+        }
     };
 
     window.kosarTorles = function (id) {
-        let ujKosar = [];
-        for (let i = 0; i < kosar.length; i++) {
+        var ujKosar = [];
+        for (var i = 0; i < kosar.length; i++) {
             if (kosar[i].id !== id) {
                 ujKosar.push(kosar[i]);
             }
@@ -236,57 +241,57 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     function kosarFrissites() {
-        let lista = document.getElementById('kosarLista');
-        let vegosszegElem = document.getElementById('vegosszegErtek');
-        let szamlalo = document.getElementById('kosarSzamlalo');
+        var lista = document.getElementById('kosarLista');
+        var vegosszegElem = document.getElementById('vegosszegErtek');
+        var szamlalo = document.getElementById('kosarSzamlalo');
 
-        if (!lista) return;
+        if (lista == null) { return; }
 
         lista.innerHTML = '';
-        let osszeg = 0;
+        var osszeg = 0;
 
         if (kosar.length === 0) {
             lista.innerHTML = '<p style="text-align: center; color: #666;">A kosár üres.</p>';
         } else {
-            for (let i = 0; i < kosar.length; i++) {
-                let elem = kosar[i];
+            for (var i = 0; i < kosar.length; i++) {
+                var elem = kosar[i];
                 osszeg = osszeg + elem.ar;
-                lista.innerHTML = lista.innerHTML +
-                    '<div class="kosar-elem">' +
-                    '<div class="kosar-elem-info">' +
-                    '<span class="kosar-elem-nev">' + elem.nev + '</span>' +
-                    '<span class="kosar-elem-ar">' + elem.ar + ' Ft</span>' +
-                    '</div>' +
-                    '<button class="torles-gomb" onclick="kosarTorles(' + elem.id + ')">✕</button>' +
-                    '</div>';
+                var sor = '<div class="kosar-elem">';
+                sor = sor + '<div class="kosar-elem-info">';
+                sor = sor + '<span class="kosar-elem-nev">' + elem.nev + '</span>';
+                sor = sor + '<span class="kosar-elem-ar">' + elem.ar + ' Ft</span>';
+                sor = sor + '</div>';
+                sor = sor + '<button class="torles-gomb" onclick="kosarTorles(' + elem.id + ')">✕</button>';
+                sor = sor + '</div>';
+                lista.innerHTML = lista.innerHTML + sor;
             }
         }
 
-        if (vegosszegElem) vegosszegElem.textContent = osszeg + ' Ft';
-        if (szamlalo) szamlalo.textContent = kosar.length;
+        if (vegosszegElem) { vegosszegElem.textContent = osszeg + ' Ft'; }
+        if (szamlalo) { szamlalo.textContent = kosar.length; }
     }
 
-    let asztalok = document.querySelectorAll('.asztal');
-    let asztalInput = document.getElementById('kivalasztottAsztalInput');
-    let vendegInput = document.getElementById('vendegekSzamaInput');
+    var asztalok = document.querySelectorAll('.asztal');
+    var asztalInput = document.getElementById('kivalasztottAsztalInput');
+    var vendegInput = document.getElementById('vendegekSzamaInput');
 
     function szekRajzolas(doboz, db) {
-        let regiek = doboz.querySelectorAll('.szek');
-        for (let i = 0; i < regiek.length; i++) {
+        var regiek = doboz.querySelectorAll('.szek');
+        for (var i = 0; i < regiek.length; i++) {
             regiek[i].remove();
         }
 
-        let tavolsag = 40;
-        for (let j = 0; j < db; j++) {
-            let ujSzek = document.createElement('div');
+        var tavolsag = 40;
+        for (var j = 0; j < db; j++) {
+            var ujSzek = document.createElement('div');
             ujSzek.className = 'szek';
 
-            let fok = j * (360 / db);
-            let radian = fok * (Math.PI / 180);
+            var fok = j * (360 / db);
+            var radian = fok * (Math.PI / 180);
 
-            let x = 50 + tavolsag * Math.cos(radian);
-            let y = 50 + tavolsag * Math.sin(radian);
-            let forgatas = fok + 90;
+            var x = 50 + tavolsag * Math.cos(radian);
+            var y = 50 + tavolsag * Math.sin(radian);
+            var forgatas = fok + 90;
 
             ujSzek.style.left = x + '%';
             ujSzek.style.top = y + '%';
@@ -297,51 +302,53 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function asztalBetoltes() {
-        if (asztalok.length === 0) return;
+        if (asztalok.length === 0) { return; }
 
-        let mentett = localStorage.getItem('asztalStatusz');
-        let adatok = [];
+        var mentett = localStorage.getItem('asztalStatusz');
+        var adatok = [];
 
         if (mentett) {
             adatok = JSON.parse(mentett);
         } else {
-            for (let i = 0; i < asztalok.length; i++) {
-                let azonosito = asztalok[i].getAttribute('data-id');
-                let randomSzam = Math.random();
-                let foglaltE = false;
+            for (var i = 0; i < asztalok.length; i++) {
+                var azonosito = asztalok[i].getAttribute('data-id');
+                var randomSzam = Math.random();
+                var foglaltE = false;
                 if (randomSzam < 0.3) {
                     foglaltE = true;
                 }
-                let vendegDb = Math.floor(Math.random() * 7) + 2;
+                var vendegDb = Math.floor(Math.random() * 7) + 2;
 
-                let targy = { id: azonosito, foglalt: foglaltE, vendeg: vendegDb };
+                var targy = { id: azonosito, foglalt: foglaltE, vendeg: vendegDb };
                 adatok.push(targy);
             }
             localStorage.setItem('asztalStatusz', JSON.stringify(adatok));
         }
 
-        for (let k = 0; k < adatok.length; k++) {
-            let adat = adatok[k];
-            let asztalElem = document.querySelector('.asztal[data-id="' + adat.id + '"]');
+        for (var k = 0; k < adatok.length; k++) {
+            var adat = adatok[k];
+            var asztalElem = document.querySelector('.asztal[data-id="' + adat.id + '"]');
 
-            if (asztalElem && adat.foglalt) {
-                asztalElem.classList.add('foglalt');
-                let szulo = asztalElem.parentElement;
-                szekRajzolas(szulo, adat.vendeg);
+            if (asztalElem) {
+                if (adat.foglalt) {
+                    asztalElem.classList.add('foglalt');
+                    var szulo = asztalElem.parentElement;
+                    szekRajzolas(szulo, adat.vendeg);
+                }
             }
         }
     }
 
     function szabadAsztalFrissites() {
-        if (!vendegInput) return;
-        let szam = parseInt(vendegInput.value);
-        if (isNaN(szam)) szam = 1;
-        if (szam > 12) szam = 12;
-        if (szam < 1) szam = 1;
+        if (!vendegInput) { return; }
+        var szam = parseInt(vendegInput.value);
+        if (isNaN(szam)) { szam = 1; }
+        if (szam > 12) { szam = 12; }
+        if (szam < 1) { szam = 1; }
 
-        let dobozok = document.querySelectorAll('.asztal-wrapper');
-        for (let i = 0; i < dobozok.length; i++) {
-            let asztal = dobozok[i].querySelector('.asztal');
+        var dobozok = document.querySelectorAll('.asztal-wrapper');
+        for (var i = 0; i < dobozok.length; i++) {
+            var asztal = dobozok[i].querySelector('.asztal');
             if (!asztal.classList.contains('foglalt')) {
                 szekRajzolas(dobozok[i], szam);
             }
@@ -355,21 +362,21 @@ document.addEventListener('DOMContentLoaded', function () {
             vendegInput.addEventListener('input', szabadAsztalFrissites);
         }
 
-        for (let i = 0; i < asztalok.length; i++) {
+        for (var i = 0; i < asztalok.length; i++) {
             asztalok[i].addEventListener('click', function () {
-                if (this.classList.contains('foglalt')) return;
+                if (this.classList.contains('foglalt')) { return; }
 
-                for (let j = 0; j < asztalok.length; j++) {
+                for (var j = 0; j < asztalok.length; j++) {
                     asztalok[j].classList.remove('kivalasztva');
                 }
                 this.classList.add('kivalasztva');
-                let id = this.getAttribute('data-id');
-                if (asztalInput) asztalInput.value = id;
+                var id = this.getAttribute('data-id');
+                if (asztalInput) { asztalInput.value = id; }
             });
         }
     }
 
-    let foglalasBtn = document.getElementById('foglalasGomb');
+    var foglalasBtn = document.getElementById('foglalasGomb');
     if (foglalasBtn) {
         foglalasBtn.addEventListener('click', function () {
             if (!asztalInput.value) {
@@ -377,14 +384,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            let text = localStorage.getItem('asztalStatusz');
-            let lista = [];
-            if (text) lista = JSON.parse(text);
+            var text = localStorage.getItem('asztalStatusz');
+            var lista = [];
+            if (text) { lista = JSON.parse(text); }
 
-            let kivId = asztalInput.value;
-            let fo = vendegInput.value;
+            var kivId = asztalInput.value;
+            var fo = vendegInput.value;
 
-            for (let i = 0; i < lista.length; i++) {
+            for (var i = 0; i < lista.length; i++) {
                 if (lista[i].id == kivId) {
                     lista[i].foglalt = true;
                     lista[i].vendeg = fo;
@@ -398,9 +405,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    let fizetesGomb = document.getElementById('fizetesInditasGomb');
-    let modal = document.getElementById('fizetesModal');
-    let bezarGomb = document.querySelector('.bezar');
+    var fizetesGomb = document.getElementById('fizetesInditasGomb');
+    var modal = document.getElementById('fizetesModal');
+    var bezarGomb = document.querySelector('.bezar');
 
     if (fizetesGomb) {
         fizetesGomb.addEventListener('click', function () {
@@ -409,24 +416,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             modal.style.display = 'flex';
-            if (kosarDoboz) kosarDoboz.classList.remove('kosar-nyitva');
+            if (kosarDoboz) { kosarDoboz.classList.remove('kosar-nyitva'); }
         });
     }
 
-    if (bezarGomb && modal) {
-        bezarGomb.addEventListener('click', function () {
-            modal.style.display = 'none';
-        });
-        window.addEventListener('click', function (e) {
-            if (e.target == modal) {
+    if (bezarGomb) {
+        if (modal) {
+            bezarGomb.addEventListener('click', function () {
                 modal.style.display = 'none';
-            }
-        });
+            });
+            window.addEventListener('click', function (e) {
+                if (e.target == modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
     }
 
-    let veglegesites = document.getElementById('veglegesitesGomb');
+    var veglegesites = document.getElementById('veglegesitesGomb');
     if (veglegesites) {
         veglegesites.addEventListener('click', function () {
+            
+            var nevMezo = document.getElementById('kartyaNev');
+            var szamMezo = document.getElementById('kartyaSzam');
+            var lejaratMezo = document.getElementById('kartyaLejarat');
+            var cvcMezo = document.getElementById('kartyaCvc');
+
+            var hiba = false;
+
+            if (nevMezo.value.length === 0) { hiba = true; }
+            if (szamMezo.value.length === 0) { hiba = true; }
+            if (lejaratMezo.value.length === 0) { hiba = true; }
+            if (cvcMezo.value.length === 0) { hiba = true; }
+
+            if (hiba == true) {
+                alert("Minden mezőt ki kell tölteni a fizetéshez!");
+                return;
+            }
+
             alert("Köszönjük a rendelést! A fizetés sikeres.");
             modal.style.display = 'none';
             kosar = [];
@@ -434,35 +461,39 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    let kartyaInput = document.getElementById('kartyaSzam');
-    let tipusKijelzo = document.getElementById('kartyaTipus');
+    var kartyaInput = document.getElementById('kartyaSzam');
+    var tipusKijelzo = document.getElementById('kartyaTipus');
 
-    if (kartyaInput && tipusKijelzo) {
-        kartyaInput.addEventListener('input', function () {
-            let ertek = this.value;
-            let kartyaNev = "";
-            let szin = "";
+    if (kartyaInput) {
+        if (tipusKijelzo) {
+            kartyaInput.addEventListener('input', function () {
+                var ertek = this.value;
+                var kartyaNev = "";
+                var szin = "";
 
-            if (ertek.indexOf('4') === 0) {
-                kartyaNev = "VISA";
-                szin = "#4a90e2";
-            } else if (ertek.indexOf('5') === 0) {
-                kartyaNev = "MasterCard";
-                szin = "#ff5f5f";
-            }
+                if (ertek.indexOf('4') === 0) {
+                    kartyaNev = "VISA";
+                    szin = "#4a90e2";
+                } else if (ertek.indexOf('5') === 0) {
+                    kartyaNev = "MasterCard";
+                    szin = "#ff5f5f";
+                }
 
-            tipusKijelzo.textContent = kartyaNev;
-            tipusKijelzo.style.color = szin;
-        });
+                tipusKijelzo.textContent = kartyaNev;
+                tipusKijelzo.style.color = szin;
+            });
+        }
     }
 
-    let ikon = document.getElementById('hamburgerGomb');
-    let mobilMenu = document.getElementById('navMenu');
+    var ikon = document.getElementById('hamburgerGomb');
+    var mobilMenu = document.getElementById('navMenu');
 
-    if (ikon && mobilMenu) {
-        ikon.addEventListener('click', function () {
-            ikon.classList.toggle('aktiv');
-            mobilMenu.classList.toggle('nyitva');
-        });
+    if (ikon) {
+        if (mobilMenu) {
+            ikon.addEventListener('click', function () {
+                ikon.classList.toggle('aktiv');
+                mobilMenu.classList.toggle('nyitva');
+            });
+        }
     }
 });

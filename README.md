@@ -1,3 +1,5 @@
 # 12Proj3
 
-sajtostészta
+Véglegesíttet projekt, és ppt egyben. 
+
+REMÉLJÜK MEGFELEL TANÁRÚR!!!!!
